@@ -3,3 +3,77 @@
 Also inside burger.js, create the code that will call the ORM functions using burger specific input for the ORM.
 
 Export at the end of the burger.js file. --}}
+
+<div class="row">
+    <div class="col-sm-12 col-md-4">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h2 class="text-center">Enter Burger</h2>
+            </div>
+            <div class="panel-body">
+                <form class="create-update-form" action="burgers/create" method="POST">
+                    <div class="form-group">
+                        <label for="ca">Burger Name:</label>
+                        <input type="text" id="ca" name="name">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="slee">Burger Status</label><br>
+                        <input type="radio" name="devoured" value="0" checked> Burger Picked
+                        <input type="radio" name="devoured" value="1"> Burger Done<br>
+                    </div>
+
+                    <button type="submit" class="btn-primary">Enter Burger</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-12 col-md-4">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h2 class="text-center">Burger Picked</h2>
+            </div>
+            <div class="panel-body">
+                <ol>
+                    {{#each burgers}}
+                    {{#unless this.devoured}}
+                    <li>
+                        {{this.burger_name}}
+
+                        <form action="burgers/update/{{this.id}}?_method=PUT" method="POST">
+                            <input type="hidden" name="devoured" value="true">
+                            <button type="submit">Burger Picked</button>
+                        </form>
+                        {{> burgers/pickup-order}}
+                    </li>
+                    {{/unless}}
+                    {{/each}}
+                </ol>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-12 col-md-4">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h2 class="text-center">Burger Picked</h2>
+            </div>
+            <div class="panel-body">
+                <ol>
+                    {{#each burgers}}
+                    {{#if this.devoured}}
+                    <li>
+                        {{this.burger_name}}
+
+                        <form action="burgers/update/{{this.id}}?_method=PUT" method="POST">
+                            <input type="hidden" name="devoured" value="false">
+                            <button type="submit">New Buger</button>
+                        </form>
+                        {{> burgers/order-pickedup}}
+                    </li>
+                    {{/if}}
+                    {{/each}}
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
